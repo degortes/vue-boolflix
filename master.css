@@ -4,6 +4,27 @@
     box-sizing: border-box;
     font-family: sans-serif;
 }
+
+header {
+    display: flex;
+    height: 100px;
+    background-color: black;
+    padding: 0 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-head {
+    display: flex;
+    align-items: center;
+}
+
+.left-head a {
+    text-decoration: none;
+    margin: 0 10px;
+    color: white;
+    font-size: 14px;
+}
  .film-container {
      display: flex;
      flex-wrap: wrap;
@@ -15,11 +36,23 @@ ul {
 .card {
     width: 200px;
     height: 300px;
-    background-color: gold;
+    background-color: #94a4bb;
     margin: 10px;
     padding: 10px;
 }
 
-img {
+li img {
     height: 20px;
+    border-radius: 50%;
+}
+
+h2 {
+    font-size: 15px;
+}
+h3 {
+    font-size: 13px;
+}
+
+.fa-star {
+    color: gold;
 }

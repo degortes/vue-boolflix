@@ -12,17 +12,33 @@
     <body>
         <div id="root">
             <header>
-                <h1>boolflix</h1>
-                <input type="text" v-model="search" @keyUp.enter="searchFilm()">
-                <button type="button" name="button" @click="searchFilm()">cerca</button>
+                <div class="left-head">
+                    <img src="img/logo.png" alt="">
+                    <a href="#">Home</a>
+                    <a href="#">TV Show</a>
+                    <a href="#">Movies</a>
+                    <a href="#">myList</a>
+                </div>
+                <div class="right-head">
+                    <input type="text" v-model="search" @keyUp.enter="searchFilm()">
+                    <button type="button" name="button" @click="searchFilm()">cerca</button>
+
+                </div>
             </header>
             <div class="film-container">
-                <ul v-for="film in films" class="card">
-                    <li v-if="film.title">{{film.title}}</li>
-                    <li v-else>{{film.name}}</li>
-                    <li v-if="film.original_title">{{film.original_title}}</li>
-                    <li v-else>{{film.original_name}}</li>
-                    <li><img v-if="languages.includes(film.original_language)" :src="'img/' + film.original_language+'.png'" alt=""><span v-else >{{film.original_language}}</span> </li>
+                <ul v-for="film in allshow" class="card">
+                    <li>
+                        <h2 v-if="film.title">{{film.title}}</h2>
+                        <h2 v-else>{{film.name}}</h2>
+                    </li>
+                    <li >
+                        <h3 v-if="film.original_title">{{film.original_title}}</h3>
+                        <h3 v-else>{{film.original_name}}</h3>
+                    </li>
+                    <li>Language:
+                        <img v-if="languages.includes(film.original_language)" :src="'img/' + film.original_language+'.png'" alt="">
+                        <span v-else >{{film.original_language}}</span>
+                    </li>
                     <li>{{film.vote_average}}</li>
                     <li>
                         <div class="stars">
