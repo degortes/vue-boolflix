@@ -20,7 +20,7 @@
                 <ul v-for="film in films" class="card">
                     <li>{{film.title}}</li>
                     <li>{{film.original_title}}</li>
-                    <li>{{film.original_language}}</li>
+                    <li><img v-if="languages.includes(film.original_language)" :src="'img/' + film.original_language+'.png'" alt=""> <span v-else >{{film.original_language}}</span> </li>
                     <li>{{film.vote_average}}</li>
                     <li>
                         <div class="stars">

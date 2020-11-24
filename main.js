@@ -2,7 +2,8 @@ var app = new Vue ({
     el: '#root',
     data: {
         search: '',
-        films: []
+        films: [],
+        languages: ['it','fr','de','ja','en','es']
     },
     methods: {
         searchFilm() {
