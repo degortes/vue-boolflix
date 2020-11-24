@@ -24,6 +24,7 @@ header {
     margin: 0 10px;
     color: white;
     font-size: 14px;
+    cursor: pointer;
 }
  .film-container {
      display: flex;
@@ -48,6 +49,13 @@ li img {
 
 h2 {
     font-size: 15px;
+}
+
+h2 .miniature {
+    float: right;
+    font-size: 12px;
+    background-color: lime;
+    padding: 5px;
 }
 h3 {
     font-size: 13px;

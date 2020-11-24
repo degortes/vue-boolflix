@@ -1,6 +1,7 @@
 var app = new Vue ({
     el: '#root',
     data: {
+        mySelection: [],
         search: '',
         films: [],
         //elementi series e allshow create solo nel caso ci sia bisogno di filtrare gli array in futuro.
@@ -31,11 +32,11 @@ var app = new Vue ({
                 .then((tvreply) => {
                     this.series = tvreply.data.results;
                     this.allshow = [...this.films,...this.series];
+                    this.mySelection = this.allshow;
+
                 });
 
             });
-
-
         }
     }
 

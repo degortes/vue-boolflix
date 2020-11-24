@@ -14,9 +14,9 @@
             <header>
                 <div class="left-head">
                     <img src="img/logo.png" alt="">
-                    <a href="#">Home</a>
-                    <a href="#">TV Show</a>
-                    <a href="#">Movies</a>
+                    <a @click="mySelection=allshow">visualizza tutti </a>
+                    <a @click="mySelection=series">solo TV Show</a>
+                    <a @click="mySelection=films">solo Movies</a>
                     <a href="#">myList</a>
                 </div>
                 <div class="right-head">
@@ -26,10 +26,10 @@
                 </div>
             </header>
             <div class="film-container">
-                <ul v-for="film in allshow" class="card">
+                <ul v-for="film in mySelection" class="card">
                     <li>
-                        <h2 v-if="film.title">{{film.title}}</h2>
-                        <h2 v-else>{{film.name}}</h2>
+                        <h2 v-if="film.title">{{film.title}}<span class="miniature">film</span> </h2>
+                        <h2 v-else>{{film.name}}<span class="miniature">tv</span></h2>
                     </li>
                     <li >
                         <h3 v-if="film.original_title">{{film.original_title}}</h3>
@@ -42,10 +42,10 @@
                     <li>{{film.vote_average}}</li>
                     <li>
                         <div class="stars">
-                            <i :class="film.vote_average > 1? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 3? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 5? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 7? 'fas' : 'far'" class="fa-star"></i>
+                            <i :class="film.vote_average > 1.5? 'fas' : 'far'" class="fa-star"></i>
+                            <i :class="film.vote_average > 3.5? 'fas' : 'far'" class="fa-star"></i>
+                            <i :class="film.vote_average > 5.5? 'fas' : 'far'" class="fa-star"></i>
+                            <i :class="film.vote_average > 7.5? 'fas' : 'far'" class="fa-star"></i>
                             <i :class="film.vote_average > 9? 'fas' : 'far'" class="fa-star"></i>
                         </div>
                     </li>
