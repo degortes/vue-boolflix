@@ -19,23 +19,22 @@ var app = new Vue ({
                 this.films = risposta.data.results
                 console.log(this.films);
             });
-        }
-    },
-    mounted() {
 
-            axios.get('https://api.themoviedb.org/3/search/movie', {
+            axios.get('https://api.themoviedb.org/3/search/tv', {
                 params: {
                     api_key: '56a6519b540fc03f31a569d6c934a815',
-                    query: 'fight',
+                    query: currentsearch,
                     language: 'it'
                 }
             })
             .then((risposta) => {
-                this.films = risposta.data.results
+                risposta.data.results.forEach((item, i) => {
+                    this.films.push(item)
+                });
             });
 
+        }
     }
-
 
 
 
