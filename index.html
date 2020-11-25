@@ -13,14 +13,15 @@
         <div id="root">
             <header>
                 <div class="left-head">
-                    <img src="img/logo.png" alt="">
-                    <a @click="mySelection=allshow">visualizza tutti </a>
-                    <a @click="mySelection=series">solo TV Show</a>
-                    <a @click="mySelection=films">solo Movies</a>
-                    <a href="#">myList</a>
+                    <h1>Boolflix</h1>
+                    <div v-if="mySelection.length" class="filter">
+                        <a @click="mySelection=series">solo TV Show</a>
+                        <a @click="mySelection=films">solo Movies</a>
+                        <a @click="mySelection=allshow">visualizza tutti </a>
+                    </div>
                 </div>
                 <div class="right-head">
-                    <input type="text" v-model="search" @keyUp.enter="searchFilm()">
+                    <input type="text" placeholder="Cerca nei contenuti" v-model="search" @keyUp.enter="searchFilm()">
                     <button type="button" name="button" @click="searchFilm()">cerca</button>
 
                 </div>
@@ -33,25 +34,39 @@
             <div class="film-container">
                 <ul v-for="film in mySelection" class="card">
                     <li>
-                        <h2 v-if="film.title">{{film.title}}<span class="miniature">film</span> </h2>
-                        <h2 v-else>{{film.name}}<span class="miniature">tv</span></h2>
-                    </li>
-                    <li >
-                        <h3 v-if="film.original_title">{{film.original_title}}</h3>
-                        <h3 v-else>{{film.original_name}}</h3>
-                    </li>
-                    <li>Language:
-                        <img v-if="languages.includes(film.original_language)" :src="'img/' + film.original_language+'.png'" alt="">
-                        <span v-else >{{film.original_language}}</span>
-                    </li>
-                    <li>{{film.vote_average}}</li>
-                    <li>
-                        <div v-if="film.vote_average" class="stars">
-                            <i  v-for="star in 5" :class="(film.vote_average / 2) >= star? 'fas' : 'far'" class="fa-star"></i>
+                        <div v-if="film.poster_path != null" class="poster-container">
+                            <img :src="'https://image.tmdb.org/t/p/w342/'+film.poster_path" alt="immagine copertina">
                         </div>
                         <div v-else>
-                            Voto non disponibile
+                            <img class="poster-not-av"src="https://zcms-rubais.softplace.eu/images/2000X3000_noimage.gif">
                         </div>
+                    </li>
+                    <li>
+                        <ul class="content-info">
+                            <li>
+                                <h2 v-if="film.title">{{film.title}} </h2>
+                                <h2 v-else>{{film.name}}</h2>
+                            </li>
+                            <li v-if="film.original_title!=film.title">
+                                <h3 v-if="film.original_title">Titolo originale: {{film.original_title}}</h3>
+                                <h3 v-else>Titolo originale: {{film.original_name}}</h3>
+                            </li>
+                            <li class="language-section">
+                                <span class="info-lang">Language:</span>
+                                <img class="lang" v-if="languages.includes(film.original_language)" :src="'img/' + film.original_language+'.png'" alt="">
+                                <span v-else >{{film.original_language}}</span>
+                            </li>
+                            <li>
+                                <div v-if="film.vote_average" class="stars">
+                                    <i  v-for="star in 5" :class="(film.vote_average / 2)+0.3 >= star? 'fas' : 'far'" class="fa-star"></i>
+                                </div>
+                                <div v-else>
+                                    Voto non disponibile
+                                </div>
+                            </li>
+                            <li v-if="film.overview" >{{film.overview}}</li>
+                            <li v-else> Nessuna descrizione disponibile</li>
+                        </ul>
                     </li>
                 </ul>
             </div>
