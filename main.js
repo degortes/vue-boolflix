@@ -1,14 +1,17 @@
+const tmdbServer = 'https://api.themoviedb.org/3';
+const myApiKey = '56a6519b540fc03f31a569d6c934a815';
+
 var app = new Vue ({
     el: '#root',
     data: {
+        moreDtl: false,
+        genres: [],
+        bestfiveActors: [],
+        currentFilm: "",
         results: "",
         isLoading: false,
-        mySelection: [],
         search: '',
         films: [],
-        //elementi series e allshow create solo nel caso ci sia bisogno di filtrare gli array in futuro.
-        series: [],
-        allshow: [],
         languages: ['it','fr','de','ja','en','es']
     },
     methods: {
@@ -18,9 +21,9 @@ var app = new Vue ({
                 this.isLoading = true;
 
                 let currentsearch = this.search;
-                axios.get('https://api.themoviedb.org/3/search/movie', {
+                axios.get(tmdbServer + '/search/movie', {
                     params: {
-                        api_key: '56a6519b540fc03f31a569d6c934a815',
+                        api_key: myApiKey,
                         query: currentsearch,
                         language: 'it'
                     }
@@ -28,26 +31,58 @@ var app = new Vue ({
                 .then((filmreply) => {
                     this.films = filmreply.data.results
                     //creata inception in modo da avere tutti i risultati solo quando disponibili.
-                    axios.get('https://api.themoviedb.org/3/search/tv', {
+                    axios.get(tmdbServer + '/search/tv', {
                         params: {
-                            api_key: '56a6519b540fc03f31a569d6c934a815',
+                            api_key: myApiKey,
                             query: currentsearch,
                             language: 'it'
                         }
                     })
                     .then((tvreply) => {
-                        this.series = tvreply.data.results;
-                        this.allshow = [...this.films,...this.series];
-                        this.mySelection = this.allshow;
+                        this.films = [...this.films,...tvreply.data.results];
                         this.isLoading = false;
                     });
-
-
                 });
 
                 this.results = this.search;
                 this.search ="";
             }
+        },
+        takefilmDtl(film) {
+            this.genres = [];
+            this.bestfiveActors = [];
+            this.currentFilm = film.id;
+            axios.get(tmdbServer+'/movie/'+this.currentFilm, {
+                params: {
+                    api_key: myApiKey,
+                    language: 'it'
+                    }
+                })
+            .then((replyid) => {
+                let generi = replyid.data.genres;
+                generi.forEach((item, i) => {
+                    this.genres.push(item.name);
+
+                });
+                console.log(this.genres);
+            });
+
+            axios.get(tmdbServer+'/movie/'+this.currentFilm+'/credits', {
+                params: {
+                    api_key: myApiKey,
+                    language: 'it'
+                }
+            })
+            .then((actordReply) => {
+                actordReply.data.cast.forEach((item, i) => {
+                    if (i<5) {
+                        this.bestfiveActors.push(item.name);
+                    }
+                });
+                this.moreDtl = !this.moreDtl;
+                console.log(this.bestfiveActors);
+            })
+
         }
     }
 

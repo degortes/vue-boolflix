@@ -85,21 +85,30 @@ ul {
     font-size: 13px;
 }
 .card:hover .content-info {
+    color: white;
     top: 10px;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     width: 342px;
     height: 500px;
-    opacity: 0.8;
-    background-color: azure;
+    opacity: 0.9;
+    background-color: #333;
     position: absolute;
     overflow-y: auto;
 }
-
+.content-info li {
+    margin: 5px;
+    overflow: auto;
+}
 .lang {
+    margin: 0 10px;
     height: 20px;
     border-radius: 50%;
 }
-
+.overview {
+    max-height: 300px;
+}
 h2 {
     font-size: 15px;
 }
@@ -116,4 +125,9 @@ h3 {
 
 .fa-star {
     color: gold;
+}
+
+.actors, .genres {
+    display: inline-block;
+    padding: 5px;
 }

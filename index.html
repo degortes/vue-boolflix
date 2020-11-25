@@ -14,25 +14,20 @@
             <header>
                 <div class="left-head">
                     <h1>Boolflix</h1>
-                    <div v-if="mySelection.length" class="filter">
-                        <a @click="mySelection=series">solo TV Show</a>
-                        <a @click="mySelection=films">solo Movies</a>
-                        <a @click="mySelection=allshow">visualizza tutti </a>
-                    </div>
                 </div>
                 <div class="right-head">
-                    <input type="text" placeholder="Cerca nei contenuti" v-model="search" @keyUp.enter="searchFilm()">
+                    <input type="text" placeholder="Cerca nei contenuti" v-model="search" @keyup.enter="searchFilm()">
                     <button type="button" name="button" @click="searchFilm()">cerca</button>
 
                 </div>
             </header>
             <section >
                 <h2 v-if="isLoading">Ricerca in corso</h2>
-                <h2 v-else-if="mySelection.length">Risultati per la ricerca " {{results}} " </h2>
+                <h2 v-else-if="films.length">Risultati per la ricerca " {{results}} " </h2>
                 <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
             </section>
             <div class="film-container">
-                <ul v-for="film in mySelection" class="card">
+                <ul v-for="film in films" class="card" @mouseleave="moreDtl = false">
                     <li>
                         <div v-if="film.poster_path != null" class="poster-container">
                             <img :src="'https://image.tmdb.org/t/p/w342/'+film.poster_path" alt="immagine copertina">
@@ -44,8 +39,8 @@
                     <li>
                         <ul class="content-info">
                             <li>
-                                <h2 v-if="film.title">{{film.title}} </h2>
-                                <h2 v-else>{{film.name}}</h2>
+                                <h2 v-if="film.title">Titolo: {{film.title}} </h2>
+                                <h2 v-else>Titolo: {{film.name}}</h2>
                             </li>
                             <li v-if="film.original_title!=film.title">
                                 <h3 v-if="film.original_title">Titolo originale: {{film.original_title}}</h3>
@@ -58,14 +53,24 @@
                             </li>
                             <li>
                                 <div v-if="film.vote_average" class="stars">
+                                    <span>Voto: </span>
                                     <i  v-for="star in 5" :class="(film.vote_average / 2)+0.3 >= star? 'fas' : 'far'" class="fa-star"></i>
                                 </div>
                                 <div v-else>
                                     Voto non disponibile
                                 </div>
                             </li>
-                            <li v-if="film.overview" >{{film.overview}}</li>
+                            <li class="overview"v-if="film.overview" >{{film.overview}}</li>
                             <li v-else> Nessuna descrizione disponibile</li>
+                            <li @click="takefilmDtl(film)">more details</li>
+                            <li v-if="moreDtl">
+                                Attori:
+                                <span class="actors" v-for="actor in bestfiveActors">{{actor}}</span>
+                            </li>
+                            <li v-if="moreDtl">
+                                Generi:
+                                <span class="genres" v-for="genere in genres">{{genere}}</span>
+                            </li>
                         </ul>
                     </li>
                 </ul>
