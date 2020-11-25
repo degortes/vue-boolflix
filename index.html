@@ -25,6 +25,11 @@
 
                 </div>
             </header>
+            <section >
+                <h2 v-if="isLoading">Ricerca in corso</h2>
+                <h2 v-else-if="mySelection.length">Risultati per la ricerca " {{results}} " </h2>
+                <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
+            </section>
             <div class="film-container">
                 <ul v-for="film in mySelection" class="card">
                     <li>
@@ -41,12 +46,11 @@
                     </li>
                     <li>{{film.vote_average}}</li>
                     <li>
-                        <div class="stars">
-                            <i :class="film.vote_average > 1.5? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 3.5? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 5.5? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 7.5? 'fas' : 'far'" class="fa-star"></i>
-                            <i :class="film.vote_average > 9? 'fas' : 'far'" class="fa-star"></i>
+                        <div v-if="film.vote_average" class="stars">
+                            <i  v-for="star in 5" :class="(film.vote_average / 2) >= star? 'fas' : 'far'" class="fa-star"></i>
+                        </div>
+                        <div v-else>
+                            Voto non disponibile
                         </div>
                     </li>
                 </ul>
