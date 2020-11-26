@@ -5,9 +5,7 @@ let css_width = 7000;
 var app = new Vue ({
     el: '#root',
     data: {
-
-        gnrLoad: false,
-        actLoad: false,
+        maxActorshow: 5,
         moreDtl: false,
         genres: [],
         bestfiveActors: [],
@@ -83,7 +81,7 @@ var app = new Vue ({
                 })
                 .then((actordReply) => {
                     actordReply.data.cast.forEach((item, i) => {
-                        if (this.bestfiveActors.length < 5 && item.known_for_department == "Acting") {
+                        if (this.bestfiveActors.length < this.maxActorshow && item.known_for_department == "Acting") {
                             this.bestfiveActors.push(item.name);
                             console.log(item);
                             this.actLoad = false;

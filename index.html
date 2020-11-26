@@ -17,7 +17,9 @@
                 </div>
                 <div class="right-head">
                     <input type="text" placeholder="Cerca nei contenuti" v-model="search" @keyup.enter="searchFilm()">
-                    <button type="button" name="button" @click="searchFilm()">cerca</button>
+                    <button type="button" name="button" @click="searchFilm()">
+                        <i class="fas fa-search"></i>
+                    </button>
 
                 </div>
             </header>
@@ -47,8 +49,9 @@
                     <li>
                         <ul class="content-info">
                             <li>
-                                <h2 v-if="film.title">Titolo: {{film.title}} </h2>
-                                <h2 v-else>Titolo: {{film.name}}</h2>
+                                <h2>{{film.title}} {{film.name}}</h2>
+                                <!-- <h2 v-if="film.title">Titolo: {{film.title}} </h2>
+                                <h2 v-else>Titolo: {{film.name}}</h2> -->
                             </li>
                             <li v-if="film.original_title!=film.title">
                                 <h3 v-if="film.original_title">Titolo originale: {{film.original_title}}</h3>
