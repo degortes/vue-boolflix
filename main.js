@@ -1,9 +1,13 @@
 const tmdbServer = 'https://api.themoviedb.org/3';
+const genresType = '/genre/movie/list' /* mem */
 const myApiKey = '56a6519b540fc03f31a569d6c934a815';
-
+let css_width = 7000;
 var app = new Vue ({
     el: '#root',
     data: {
+
+        gnrLoad: false,
+        actLoad: false,
         moreDtl: false,
         genres: [],
         bestfiveActors: [],
@@ -49,39 +53,48 @@ var app = new Vue ({
             }
         },
         takefilmDtl(film) {
-            this.genres = [];
-            this.bestfiveActors = [];
-            this.currentFilm = film.id;
-            axios.get(tmdbServer+'/movie/'+this.currentFilm, {
-                params: {
-                    api_key: myApiKey,
-                    language: 'it'
+
+            if (!this.moreDtl) {
+                this.gnrLoad = true;
+
+                this.genres = [];
+                this.bestfiveActors = [];
+                this.currentFilm = film.id;
+                axios.get(tmdbServer+'/movie/'+this.currentFilm, {
+                    params: {
+                        api_key: myApiKey,
+                        language: 'it'
+                        }
+                    })
+                .then((replyid) => {
+                    let generi = replyid.data.genres;
+                    generi.forEach((item, i) => {
+                        this.genres.push(item.name);
+                    });
+                    console.log(this.genres);
+                    this.gnrLoad = false;
+                });
+                this.actLoad = true;
+                axios.get(tmdbServer+'/movie/'+this.currentFilm+'/credits', {
+                    params: {
+                        api_key: myApiKey,
+                        language: 'it'
                     }
                 })
-            .then((replyid) => {
-                let generi = replyid.data.genres;
-                generi.forEach((item, i) => {
-                    this.genres.push(item.name);
-
-                });
-                console.log(this.genres);
-            });
-
-            axios.get(tmdbServer+'/movie/'+this.currentFilm+'/credits', {
-                params: {
-                    api_key: myApiKey,
-                    language: 'it'
-                }
-            })
-            .then((actordReply) => {
-                actordReply.data.cast.forEach((item, i) => {
-                    if (i<5) {
-                        this.bestfiveActors.push(item.name);
-                    }
-                });
-                this.moreDtl = !this.moreDtl;
-                console.log(this.bestfiveActors);
-            })
+                .then((actordReply) => {
+                    actordReply.data.cast.forEach((item, i) => {
+                        if (this.bestfiveActors.length < 5 && item.known_for_department == "Acting") {
+                            this.bestfiveActors.push(item.name);
+                            console.log(item);
+                            this.actLoad = false;
+                        }
+                    });
+                    this.moreDtl = !this.moreDtl;
+                    console.log(this.bestfiveActors);
+                })
+            } else {
+                this.moreDtl = false;
+            }
 
         }
     }

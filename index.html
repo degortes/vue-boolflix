@@ -22,9 +22,17 @@
                 </div>
             </header>
             <section >
+                <div v-if="isLoading"class="loader">
+
+                </div>
+
+
                 <h2 v-if="isLoading">Ricerca in corso</h2>
+
                 <h2 v-else-if="films.length">Risultati per la ricerca " {{results}} " </h2>
                 <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
+                <div v-else class="welcome">
+                </div>
             </section>
             <div class="film-container">
                 <ul v-for="film in films" class="card" @mouseleave="moreDtl = false">
@@ -62,15 +70,20 @@
                             </li>
                             <li class="overview"v-if="film.overview" >{{film.overview}}</li>
                             <li v-else> Nessuna descrizione disponibile</li>
-                            <li @click="takefilmDtl(film)">more details</li>
-                            <li v-if="moreDtl">
-                                Attori:
+                            <li class="more-details"@click="takefilmDtl(film)">
+                                Dettagli
+                                <i v-if="moreDtl" class="fas fa-minus"></i>
+                                <i v-else class="fas fa-plus"></i>
+                            </li>
+                            <li v-if="moreDtl && bestfiveActors.length">
+                                <h4>Attori:</h4>
                                 <span class="actors" v-for="actor in bestfiveActors">{{actor}}</span>
                             </li>
-                            <li v-if="moreDtl">
-                                Generi:
+                            <li v-if="moreDtl && genres.length">
+                                <h4>Generi:</h4>
                                 <span class="genres" v-for="genere in genres">{{genere}}</span>
                             </li>
+                            <li v-if="!bestfiveActors.length && !genres.length && moreDtl">Al momento non ci sono ulteriori informazioni</li>
                         </ul>
                     </li>
                 </ul>
