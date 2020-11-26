@@ -24,20 +24,26 @@
                 </div>
             </header>
             <section >
-                <div v-if="isLoading"class="loader">
-
-                </div>
-
-
+                <div v-if="isLoading"class="loader"></div>
                 <h2 v-if="isLoading">Ricerca in corso</h2>
 
-                <h2 v-else-if="films.length">Risultati per la ricerca " {{results}} " </h2>
+                <div  class="results"v-else-if="films.length">
+                    <h2>Risultati per la ricerca " {{results}} "</h2>
+                    <select v-model="selectGnr">
+                        <option value="all">Tutti i generi</option>
+                        <option :value="pcGnr[i]" v-for="(generi, i) in humGnr">{{generi}}</option>
+                    </select>
+                    <button v-show="movie.length" @click="films = movie" type="button" name="button">Solo film</button>
+                    <button type="button" v-show="tvShow.length" @click="films = tvShow" name="button">Solo serie</button>
+                    <button type="button" @click="films = oldSelection" name="button">Vedi tutto</button>
+
+                </div>
                 <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
                 <div v-else class="welcome">
                 </div>
             </section>
             <div class="film-container">
-                <ul v-for="film in films" class="card" @mouseleave="moreDtl = false">
+                <ul v-for="(film,i) in films" class="card" v-if="film.genre_ids.includes(selectGnr) || selectGnr == 'all' " @mouseleave="moreDtl = false">
                     <li>
                         <div v-if="film.poster_path != null" class="poster-container">
                             <img :src="'https://image.tmdb.org/t/p/w342/'+film.poster_path" alt="immagine copertina">
@@ -58,7 +64,7 @@
                             </li>
                             <li class="language-section">
                                 <span class="info-lang">Language:</span>
-                                <img class="lang" v-if="languages.includes(film.original_language)" :src="'img/' + film.original_language+'.png'" alt="">
+                                <img class="lang" v-if="languages.includes(film.original_language)":src="'img/' + film.original_language+'.png'" alt="">
                                 <span v-else >{{film.original_language}}</span>
                             </li>
                             <li>
@@ -83,7 +89,7 @@
                             </li>
                             <li v-if="moreDtl && genres.length">
                                 <h4>Generi:</h4>
-                                <span class="genres" v-for="genere in genres">{{genere.name}}</span>
+                                <span class="genres" v-for="genere in genres">{{genere}}</span>
                             </li>
                             <li v-if="!bestfiveActors.length && !genres.length && moreDtl">Al momento non ci sono ulteriori informazioni</li>
                         </ul>

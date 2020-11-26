@@ -1,26 +1,47 @@
+
+
+
+
 const tmdbServer = 'https://api.themoviedb.org/3';
-const genresType = '/genre/movie/list' /* mem */
 const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 
 var app = new Vue ({
     el: '#root',
     data: {
+        oldSelection : [],
+        pcGnr: [],
+        selectGnr: 'all',
         maxActorshow: 5,
         moreDtl: false,
+        isLoading: false,
+        results: "",
+        search: '',
+        humGnr: [],
+        serverTvGen: [],
+        serverMovGen: [],
+        myTvGen: [],
+        myMovGen: [],
+        films: [],
+        movie:[],
+        tvShow:[],
         genres: [],
         bestfiveActors: [],
-        results: "",
-        isLoading: false,
-        search: '',
-        films: [],
         languages: ['it','fr','de','ja','en','es']
     },
     methods: {
         searchFilm() {
 
             if (this.search.trim()) {
+                this.pcGnr = [],
+                this.selectGnr = 'all';
                 this.films = [];
+                this.tvShow = [];
+                this.movie = [];
                 this.isLoading = true;
+                this.myTvGen = [],
+                this.myMovGen = [],
+                this.humGnr = [];
+                this.oldSelection = [];
                 let currentsearch = this.search;
                 axios.get(tmdbServer + '/search/movie', {
                     params: {
@@ -30,10 +51,28 @@ var app = new Vue ({
                     }
                 })
                 .then((filmreply) => {
-                    this.films = [...this.films,...filmreply.data.results];
+                    this.movie = [...this.movie,...filmreply.data.results];
                     this.isLoading = false;
-                    console.log(this.films);
+                    this.films = [...this.tvShow,...this.movie];
+                    this.oldSelection = [...this.oldSelection,...this.films];
 
+
+                    this.movie.forEach((item) => {
+                        item.genre_ids.forEach((elem) => {
+                            if (!this.myMovGen.includes(elem)) {
+                                this.myMovGen.push(elem)
+                            }
+                        });
+                    });
+                    console.log(this.myMovGen);
+                    this.serverMovGen.forEach((item, i) => {
+                        this.myMovGen.forEach((elem, i) => {
+                            if (item.id == elem && !this.pcGnr.includes(item.id)) {
+                                this.humGnr.push(item.name);
+                                this.pcGnr.push(item.id)
+                            }
+                        });
+                    });
                 });
 
                 axios.get(tmdbServer + '/search/tv', {
@@ -44,9 +83,29 @@ var app = new Vue ({
                     }
                 })
                 .then((tvreply) => {
-                    this.films = [...this.films,...tvreply.data.results];
+                    this.tvShow = [...this.tvShow,...tvreply.data.results];
                     this.isLoading = false;
-                    console.log(this.films);
+                    this.films = [...this.tvShow,...this.movie];
+                    this.oldSelection = [...this.oldSelection,...this.films];
+                    this.tvShow.forEach((item) => {
+                        item.genre_ids.forEach((elem) => {
+                            if (!this.myTvGen.includes(elem)) {
+                                this.myTvGen.push(elem)
+                            }
+                        });
+                    });
+                    console.log(this.myTvGen);
+                    this.serverTvGen.forEach((item, i) => {
+                        this.myTvGen.forEach((elem, i) => {
+                            if (item.id == elem && !this.pcGnr.includes(item.id)) {
+                                this.humGnr.push(item.name);
+                                this.pcGnr.push(item.id);
+
+                            }
+                        });
+                    });
+                    console.log(this.pcGnr);
+
                 });
 
                 this.results = this.search;
@@ -58,26 +117,27 @@ var app = new Vue ({
             if (!this.moreDtl) {
                 this.genres = [];
                 this.bestfiveActors = [];
-
+                //cerco i generi MOVIE nei credits
                 if (film.title) {
-                    axios.get(tmdbServer+'/movie/'+film.id, {
-                        params: {
-                            api_key: myApiKey,
-                            language: 'it'
-                        }
-                    })
-                    .then((replyid) => {
-                        this.genres = replyid.data.genres;
+                    film.genre_ids.forEach((item, i) => {
+                        this.serverMovGen.forEach((elem, i) => {
+                            if (item == elem.id) {
+                                this.genres.push(elem.name)
+                            }
 
-                        console.log(this.genres);
+                        });
+
                     });
+
+
+                    //cerco gli attori MOVIE attori
                     axios.get(tmdbServer+'/movie/'+film.id+'/credits', {
                         params: {
                             api_key: myApiKey,
                         }
                     })
                     .then((actordReply) => {
-                        actordReply.data.cast.forEach((item, i) => {
+                        actordReply.data.cast.forEach((item) => {
                             if (this.bestfiveActors.length < this.maxActorshow && item.known_for_department == "Acting") {
                                 this.bestfiveActors.push(item.name);
                                 console.log(item);
@@ -87,42 +147,57 @@ var app = new Vue ({
                         console.log(this.bestfiveActors);
                     })
                 } else if (film.name) {
-                    axios.get(tmdbServer+'/tv/'+film.id, {
-                        params: {
-                            api_key: myApiKey,
-                            language: 'it'
-                        }
-                    })
-                    .then((replyid) => {
-                        this.genres = replyid.data.genres;
-                        
-                        console.log(this.genres);
+
+                    film.genre_ids.forEach((item, i) => {
+                        this.serverTvGen.forEach((elem, i) => {
+                            if (item == elem.id) {
+                                this.genres.push(elem.name)
+                            }
+                        });
+
                     });
+
                     axios.get(tmdbServer+'/tv/'+film.id+'/credits', {
                         params: {
                             api_key: myApiKey,
                         }
                     })
                     .then((actordReply) => {
-                        actordReply.data.cast.forEach((item, i) => {
+                        actordReply.data.cast.forEach((item) => {
                             if (this.bestfiveActors.length < this.maxActorshow && item.known_for_department == "Acting") {
                                 this.bestfiveActors.push(item.name);
-                                console.log(item);
                             }
                         });
                         this.moreDtl = !this.moreDtl;
-                        console.log(this.bestfiveActors);
                     })
-
-
-
                 }
-
             } else {
                 this.moreDtl = false;
             }
-
         }
+    },
+    mounted() {
+        axios.get(tmdbServer+'/genre/tv/list', {
+            params: {
+                api_key: myApiKey,
+                language: 'it'
+            }
+        })
+        .then((tvgenreply) => {
+            this.serverTvGen = tvgenreply.data.genres;
+            console.log(this.serverTvGen);
+        })
+        axios.get(tmdbServer+'/genre/movie/list', {
+            params: {
+                api_key: myApiKey,
+                language: 'it'
+            }
+        })
+        .then((movgenreply) => {
+            this.serverMovGen = movgenreply.data.genres;
+            console.log(this.serverMovGen);
+
+        })
     }
 
 
