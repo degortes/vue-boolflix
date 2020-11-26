@@ -36,7 +36,8 @@
                     <button v-show="movie.length" @click="isClick(movie)" type="button" name="button">Film</button>
                     <button type="button" v-show="tvShow.length" @click="isClick(tvShow)" name="button">Serie</button>
                     <button type="button" @click="isClick(oldSelection)" name="button">Vedi tutto</button>
-                    <button @click="sortByStar" type="button" name="button">per voto</button>
+                    <button @click="sortByStar" type="button" name="button">Ordina per voto</button>
+                    <button @click="sortByPop()" type="button" name="button">Ordina per popolarità</button>
 
                 </div>
                 <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>

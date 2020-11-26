@@ -8,6 +8,7 @@ const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 var app = new Vue ({
     el: '#root',
     data: {
+        filter: false,
         order: false,
         oldSelection : [],
         pcGnr: [],
@@ -39,27 +40,41 @@ var app = new Vue ({
             if (!this.order) {
                 this.films.sort((a,b) => (a.vote_average > b.vote_average? -1 : 1));
                 this.order = true;
-                this.films.reverse();
             } else {
                 this.films.reverse();
                 this.order = false;
             }
         },
+        sortByPop() {
+            if (!this.filter) {
+                this.films.sort((a,b) => (a.popularity > b.popularity? -1 : 1));
+                this.filter = true;
+
+            } else {
+                this.films.reverse();
+                this.filter = false;
+            }
+        },
+
 
         searchFilm() {
 
             if (this.search.trim()) {
-                this.pcGnr = [],
+                this.filter = false;
+                this.order = false;
+                this.pcGnr = [];
                 this.selectGnr = 'all';
                 this.films = [];
                 this.tvShow = [];
                 this.movie = [];
                 this.isLoading = true;
-                this.myTvGen = [],
-                this.myMovGen = [],
+                this.myTvGen = [];
+                this.myMovGen = [];
                 this.humGnr = [];
                 this.oldSelection = [];
+
                 let currentsearch = this.search;
+
                 axios.get(tmdbServer + '/search/movie', {
                     params: {
                         api_key: myApiKey,
@@ -73,7 +88,6 @@ var app = new Vue ({
                     this.films = [...this.tvShow,...this.movie];
                     this.oldSelection = [...this.oldSelection,...this.films];
 
-
                     this.movie.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
                             if (!this.myMovGen.includes(elem)) {
@@ -81,7 +95,7 @@ var app = new Vue ({
                             }
                         });
                     });
-                    console.log(this.myMovGen);
+
                     this.serverMovGen.forEach((item, i) => {
                         this.myMovGen.forEach((elem, i) => {
                             if (item.id == elem && !this.pcGnr.includes(item.id)) {
@@ -90,6 +104,7 @@ var app = new Vue ({
                             }
                         });
                     });
+
                 });
 
                 axios.get(tmdbServer + '/search/tv', {
@@ -116,12 +131,10 @@ var app = new Vue ({
                             if (item.id == elem && !this.pcGnr.includes(item.id)) {
                                 this.humGnr.push(item.name);
                                 this.pcGnr.push(item.id);
-
                             }
                         });
                     });
                     console.log(this.pcGnr);
-
                 });
                 this.oldSelection = this.films;
                 this.results = this.search;
@@ -140,12 +153,8 @@ var app = new Vue ({
                             if (item == elem.id) {
                                 this.genres.push(elem.name)
                             }
-
                         });
-
                     });
-
-
                     //cerco gli attori MOVIE attori
                     axios.get(tmdbServer+'/movie/'+film.id+'/credits', {
                         params: {
@@ -160,7 +169,6 @@ var app = new Vue ({
                             }
                         });
                         this.moreDtl = !this.moreDtl;
-                        console.log(this.bestfiveActors);
                     })
                 } else if (film.name) {
 
@@ -201,7 +209,6 @@ var app = new Vue ({
         })
         .then((tvgenreply) => {
             this.serverTvGen = tvgenreply.data.genres;
-            console.log(this.serverTvGen);
         })
         axios.get(tmdbServer+'/genre/movie/list', {
             params: {
@@ -211,8 +218,6 @@ var app = new Vue ({
         })
         .then((movgenreply) => {
             this.serverMovGen = movgenreply.data.genres;
-            console.log(this.serverMovGen);
-
         })
     }
 
