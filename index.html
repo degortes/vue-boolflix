@@ -49,9 +49,8 @@
                     <li>
                         <ul class="content-info">
                             <li>
-                                <h2>{{film.title}} {{film.name}}</h2>
-                                <!-- <h2 v-if="film.title">Titolo: {{film.title}} </h2>
-                                <h2 v-else>Titolo: {{film.name}}</h2> -->
+                                <h2 v-if="film.title">Titolo: {{film.title}} </h2>
+                                <h2 v-else>Titolo: {{film.name}}</h2>
                             </li>
                             <li v-if="film.original_title!=film.title">
                                 <h3 v-if="film.original_title">Titolo originale: {{film.original_title}}</h3>
@@ -84,7 +83,7 @@
                             </li>
                             <li v-if="moreDtl && genres.length">
                                 <h4>Generi:</h4>
-                                <span class="genres" v-for="genere in genres">{{genere}}</span>
+                                <span class="genres" v-for="genere in genres">{{genere.name}}</span>
                             </li>
                             <li v-if="!bestfiveActors.length && !genres.length && moreDtl">Al momento non ci sono ulteriori informazioni</li>
                         </ul>
