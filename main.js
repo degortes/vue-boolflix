@@ -35,8 +35,11 @@ var app = new Vue ({
         isClick(x) {
             this.films = [];
             this.films = x;
+            this.order = false;
+            this.filter = false;
         },
         sortByStar() {
+            this.filter = false;
             if (!this.order) {
                 this.films.sort((a,b) => (a.vote_average > b.vote_average? -1 : 1));
                 this.order = true;
@@ -46,6 +49,7 @@ var app = new Vue ({
             }
         },
         sortByPop() {
+            this.order = false;
             if (!this.filter) {
                 this.films.sort((a,b) => (a.popularity > b.popularity? -1 : 1));
                 this.filter = true;

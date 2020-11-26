@@ -19,7 +19,7 @@ header {
     align-items: center;
 }
 header input {
-    width: 300px;
+    width: 160px;
     height: 40px;
     border-radius: 3px;
     text-align: center;
@@ -27,10 +27,11 @@ header input {
 
 header button {
     border-radius: 3px;
-    width: 80px;
+    width: 40px;
     height: 40px;
     background-color: red;
     color: white;
+    display: none;
 
 }
 .welcome {
@@ -48,7 +49,7 @@ header button {
 
 h1 {
     color: red;
-    margin-right: 50px;
+    margin-right: 10px;
 }
 
 .left-head a {
@@ -68,25 +69,48 @@ section {
     padding-top: 100px;
     width: 100vw;
 }
-section .results {
+section .results::after {
+    clear: both;
+    display: table;
+    content: '';
+}
+/* .results {
     display: flex;
+} */
+
+.main-search {
+    float: left;
+    width: 100%;
+}
+.left-filter,
+.mid-filter, .right-filter {
+    text-align: center;
+    float: left;
+    width: 100%;
+    height: 38px;
+}
+.right-filter button i {
+    margin-left: 3px;
 }
 section h2 {
     color: white;
-    padding: 20px 100px;
+    padding: 10px 20px;
+
 }
 section button, section select {
-    height: 30px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    padding: 5px 10px;
-
+    min-height: 30px;
+    padding: 0 10px;
+    margin: 0 3px;
+    min-width: 60px;
+    background-color: #333;
+    color: beige;
+    border: 1px solid black;
+    font-size: 14px;
+    border-radius: 6px;
 }
  .film-container {
      background-color: #333;
-     padding-top: 160px;
-
+     padding-top: 250px;
      display: flex;
      flex-wrap: wrap;
      justify-content: center;
@@ -142,8 +166,7 @@ ul {
     justify-content: flex-end;
     width: 342px;
     height: 500px;
-    opacity: 0.8;
-    background-color: rgba(0,0,0,0.95);
+    background-color: rgba(0,0,0,0.85);
     position: absolute;
     overflow-y: auto;
     border: 0.5px solid white;
@@ -217,4 +240,27 @@ h3 {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+@media screen and (min-width: 380px) {
+    header button {
+        display: inline-block;
+    }
+
+}
+
+@media screen and (min-width: 700px) {
+    .left-filter {
+        width: 33%;
+    }
+
+    .mid-filter, .right-filter {
+        width: 33%;
+    }
+    .main-search {
+        width: 100%;
+    }
+    .film-container {
+    padding-top: 180px;
+    }
+
 }

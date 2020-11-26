@@ -27,18 +27,26 @@
                 <div v-if="isLoading"class="loader"></div>
                 <h2 v-if="isLoading">Ricerca in corso</h2>
 
-                <div  class="results"v-else-if="films.length">
-                    <h2>Risultati per la ricerca " {{results}} "</h2>
-                    <select v-model="selectGnr">
-                        <option value="all">Tutti i generi</option>
-                        <option :value="pcGnr[i]" v-for="(generi, i) in humGnr">{{generi}}</option>
-                    </select>
-                    <button v-show="movie.length" @click="isClick(movie)" type="button" name="button">Film</button>
-                    <button type="button" v-show="tvShow.length" @click="isClick(tvShow)" name="button">Serie</button>
-                    <button type="button" @click="isClick(oldSelection)" name="button">Vedi tutto</button>
-                    <button @click="sortByStar" type="button" name="button">Ordina per voto</button>
-                    <button @click="sortByPop()" type="button" name="button">Ordina per popolarità</button>
-
+                <div  class="results" v-else-if="films.length">
+                    <div class="main-search">
+                        <h2>Risultati per" {{results}} "</h2>
+                    </div>
+                    <div class="left-filter">
+                        <select v-model="selectGnr">
+                            <option value="all">Tutti i generi</option>
+                            <option :value="pcGnr[i]" v-for="(generi, i) in humGnr">{{generi}}</option>
+                        </select>
+                    </div>
+                    <div class="mid-filter">
+                        <button v-show="movie.length" @click="isClick(movie)" type="button" name="button">Film</button>
+                        <button type="button" v-show="tvShow.length" @click="isClick(tvShow)" name="button">Serie</button>
+                        <button type="button" @click="isClick(oldSelection)" name="button">Vedi tutto</button>
+                    </div>
+                    <div class="right-filter">
+                        <button @click="sortByStar" type="button" name="button">Voto
+                            <i :class="!order?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
+                        <button @click="sortByPop()" type="button" name="button">I più visti<i :class="!filter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
+                    </div>
                 </div>
                 <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
                 <div v-else class="welcome">
