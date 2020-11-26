@@ -8,6 +8,7 @@ const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 var app = new Vue ({
     el: '#root',
     data: {
+        order: false,
         oldSelection : [],
         pcGnr: [],
         selectGnr: 'all',
@@ -29,6 +30,22 @@ var app = new Vue ({
         languages: ['it','fr','de','ja','en','es']
     },
     methods: {
+
+        isClick(x) {
+            this.films = [];
+            this.films = x;
+        },
+        sortByStar() {
+            if (!this.order) {
+                this.films.sort((a,b) => (a.vote_average > b.vote_average? -1 : 1));
+                this.order = true;
+                this.films.reverse();
+            } else {
+                this.films.reverse();
+                this.order = false;
+            }
+        },
+
         searchFilm() {
 
             if (this.search.trim()) {
@@ -86,7 +103,6 @@ var app = new Vue ({
                     this.tvShow = [...this.tvShow,...tvreply.data.results];
                     this.isLoading = false;
                     this.films = [...this.tvShow,...this.movie];
-                    this.oldSelection = [...this.oldSelection,...this.films];
                     this.tvShow.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
                             if (!this.myTvGen.includes(elem)) {
@@ -107,7 +123,7 @@ var app = new Vue ({
                     console.log(this.pcGnr);
 
                 });
-
+                this.oldSelection = this.films;
                 this.results = this.search;
                 this.search ="";
             }

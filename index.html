@@ -33,9 +33,10 @@
                         <option value="all">Tutti i generi</option>
                         <option :value="pcGnr[i]" v-for="(generi, i) in humGnr">{{generi}}</option>
                     </select>
-                    <button v-show="movie.length" @click="films = movie" type="button" name="button">Solo film</button>
-                    <button type="button" v-show="tvShow.length" @click="films = tvShow" name="button">Solo serie</button>
-                    <button type="button" @click="films = oldSelection" name="button">Vedi tutto</button>
+                    <button v-show="movie.length" @click="isClick(movie)" type="button" name="button">Film</button>
+                    <button type="button" v-show="tvShow.length" @click="isClick(tvShow)" name="button">Serie</button>
+                    <button type="button" @click="isClick(oldSelection)" name="button">Vedi tutto</button>
+                    <button @click="sortByStar" type="button" name="button">per voto</button>
 
                 </div>
                 <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
