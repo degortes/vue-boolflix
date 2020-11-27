@@ -74,9 +74,6 @@ section .results::after {
     display: table;
     content: '';
 }
-/* .results {
-    display: flex;
-} */
 
 .main-search {
     float: left;
@@ -235,6 +232,14 @@ h3 {
     width: 200px;
     height: 200px;
     animation: spin 0.7s linear infinite;
+}
+
+.alternative-advise {
+    display: flex;
+    color: red;
+    font-size: 20px;
+    padding: 20px;
+    align-items: center;
 }
 
 @keyframes spin {

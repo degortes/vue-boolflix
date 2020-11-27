@@ -32,14 +32,14 @@
                         <h2>Risultati per" {{results}} "</h2>
                     </div>
                     <div class="left-filter">
-                        <select v-model="selectGnr">
+                        <select @change="serviceAdvise()" v-model="selectGnr">
                             <option value="all">Tutti i generi</option>
                             <option :value="pcGnr[i]" v-for="(generi, i) in humGnr">{{generi}}</option>
                         </select>
                     </div>
                     <div class="mid-filter">
-                        <button v-show="movie.length" @click="isClick(movie)" type="button" name="button">Film</button>
-                        <button type="button" v-show="tvShow.length" @click="isClick(tvShow)" name="button">Serie</button>
+                        <button v-show="movie.length && !servicePage" @click="isClick(movie)" type="button" name="button">Film</button>
+                        <button type="button" v-show="tvShow.length && !servicePage" @click="isClick(tvShow)" name="button">Serie</button>
                         <button type="button" @click="isClick(oldSelection)" name="button">Vedi tutto</button>
                     </div>
                     <div class="right-filter">
@@ -52,8 +52,8 @@
                 <div v-else class="welcome">
                 </div>
             </section>
-            <div id="viewer" class="film-container">
-                <ul v-for="(film,i) in films" class="card" v-if="film.genre_ids.includes(selectGnr) || selectGnr == 'all' " @mouseleave="moreDtl = false">
+            <div id="viewer"  class="film-container">
+                <ul ref="test" v-for="(film,i) in films" class="card" v-if="film.genre_ids.includes(selectGnr) || selectGnr == 'all' " @mouseleave="moreDtl = false">
                     <li>
                         <div v-if="film.poster_path != null" class="poster-container">
                             <img :src="'https://image.tmdb.org/t/p/w342/'+film.poster_path" alt="immagine copertina">
@@ -106,9 +106,11 @@
                     </li>
                 </ul>
             </div>
-            <div v-if="servicePage">
-                ricarica
+            <div v-if="servicePage" class="alternative-advise">
+                <h2>Non ci sono risultati in questa categoria, clicca su vedi tutto </h2>
             </div>
+
+
         </div>
         <script src="main.js" charset="utf-8"></script>
     </body>

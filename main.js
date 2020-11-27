@@ -8,7 +8,7 @@ const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 var app = new Vue ({
     el: '#root',
     data: {
-        servicePage: '',
+        servicePage: false,
         filter: false,
         order: false,
         oldSelection: [],
@@ -32,14 +32,24 @@ var app = new Vue ({
         languages: ['it','fr','de','ja','en','es']
     },
     methods: {
+        serviceAdvise() {
+            Vue.nextTick(function() {
+                if (!app.$refs.test.length) {
+                    app.servicePage = true;
+                } else {
+                    app.servicePage = false;
+                }
+            });
+
+
+        },
 
 
         isClick(x) {
             this.films = x;
             this.order = false;
             this.filter = false;
-
-
+            this.serviceAdvise();
         },
         sortByStar() {
             this.filter = false;
