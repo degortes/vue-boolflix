@@ -99,13 +99,14 @@ section h2 {
 
 }
 section button, section select {
+    font-weight: bold;
     min-height: 30px;
     padding: 0 10px;
     margin: 0 3px;
     min-width: 60px;
     background-color: #333;
-    color: beige;
-    border: 1px solid black;
+    color: white;
+    border: 2px solid black;
     font-size: 14px;
     border-radius: 6px;
 }
@@ -131,7 +132,9 @@ ul {
     padding: 10px 1px;
 }
 
-
+.notfound {
+    color: white;
+}
 .poster-container {
     height: 500px;
     width: 342px;

@@ -68,19 +68,19 @@
                     <li>
                         <ul class="content-info">
                             <li>
-                                <h2 v-if="film.title">Titolo: {{film.title}} </h2>
+                                <h2 v-if="film.title">Titolo: {{film.title}}</h2>
                                 <h2 v-else>Titolo: {{film.name}}</h2>
                             </li>
-                            <li v-if="film.original_title!=film.title">
-                                <h3>Titolo originale: {{film.original_title}}</h3>
+                            <li v-if="film.original_title != film.title">
+                                <h3>Titolo originale: {{ film.original_title}}</h3>
                             </li>
-                            <li v-if="film.original_name!=film.name">
-                                <h3 >Titolo originale: {{film.original_name}}</h3>
+                            <li v-if="film.original_name != film.name">
+                                <h3 >Titolo originale: {{ film.original_name}}</h3>
                             </li>
                             <li class="language-section">
                                 <span class="info-lang">Language:</span>
                                 <img class="lang" v-if="languages.includes(film.original_language)":src="'img/' + film.original_language+'.png'" alt="">
-                                <span v-else >{{film.original_language}}</span>
+                                <span v-else >{{ film.original_language}}</span>
                             </li>
                             <li>
                                 <div v-if="film.vote_average" class="stars">
@@ -112,7 +112,7 @@
                 </ul>
             </div>
             <div v-if="servicePage" class="alternative-advise">
-                <h2>Non ci sono risultati in questa categoria, clicca su vedi tutto </h2>
+                <h2>Non ci sono risultati in questa categoria, clicca <span class="notfound"> vedi tutto </span> o filtra per un genere diverso </h2>
             </div>
         </div>
         <script src="main.js" charset="utf-8"></script>
