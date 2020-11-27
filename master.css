@@ -114,6 +114,12 @@ section button, section select {
 section select {
     width: 230px;
 }
+button:focus {
+    outline: none;
+}
+button.active {
+    border: 2px solid red;
+}
  .film-container {
      background-color: #333;
      padding-top: 220px;
@@ -141,6 +147,7 @@ ul {
     background-image: url('https://zcms-rubais.softplace.eu/images/2000X3000_noimage.gif');
     background-size: contain;
     background-repeat: no-repeat;
+    position: relative;
 }
 
 .poster-container img {
@@ -254,6 +261,23 @@ h3 {
     align-items: center;
 }
 
+.tag {
+    z-index: 1;
+    width: 34px;
+    height: 17px;
+    background-color: #ab2d2d;
+    color: white;
+    position: absolute;
+    right: 4px;
+    top: 12px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -264,6 +288,7 @@ h3 {
     }
 
 }
+
 
 @media screen and (min-width: 700px) {
     .left-filter {

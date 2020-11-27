@@ -166,6 +166,7 @@ var app = new Vue ({
                         });
                     });
                     //cerco gli attori MOVIE attori
+                    this.moreDtl = !this.moreDtl;
                     axios.get(tmdbServer+'/movie/'+film.id+'/credits', {
                         params: {
                             api_key: myApiKey,
@@ -177,7 +178,6 @@ var app = new Vue ({
                                 this.bestfiveActors.push(item.name);
                             }
                         });
-                        this.moreDtl = !this.moreDtl;
                     })
                 } else if (film.name) {
 
@@ -190,6 +190,7 @@ var app = new Vue ({
 
                     });
 
+                    this.moreDtl = !this.moreDtl;
                     axios.get(tmdbServer+'/tv/'+film.id+'/credits', {
                         params: {
                             api_key: myApiKey,
@@ -201,7 +202,6 @@ var app = new Vue ({
                                 this.bestfiveActors.push(item.name);
                             }
                         });
-                        this.moreDtl = !this.moreDtl;
                     })
                 }
             } else {

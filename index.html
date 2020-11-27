@@ -23,7 +23,7 @@
 
                 </div>
             </header>
-            <section >
+            <section>
                 <div v-if="isLoading"class="loader"></div>
                 <h2 v-if="isLoading">Ricerca in corso</h2>
 
@@ -38,9 +38,9 @@
                         </select>
                     </div>
                     <div class="mid-filter">
-                        <button v-show="movie.length && !servicePage" @click="isClick(movie)" type="button" name="button">Film</button>
-                        <button type="button" v-show="tvShow.length && !servicePage" @click="isClick(tvShow)" name="button">Serie</button>
-                        <button type="button" @click="isClick(oldSelection)" name="button">Vedi tutto</button>
+                        <button v-show="movie.length && !servicePage" @click="isClick(movie)" type="button" name="button" :class="films == movie? 'active' : null">Film</button>
+                        <button type="button" v-show="tvShow.length && !servicePage" @click="isClick(tvShow)" name="button" :class="films == tvShow? 'active' : null">Serie</button>
+                        <button type="button" @click="isClick(oldSelection)" name="button" :class="films == oldSelection? 'active' : null">Vedi tutto</button>
                     </div>
                     <div class="right-filter">
                         <button @click="sortByStar" type="button" name="button">Voto
@@ -63,6 +63,12 @@
                         </div>
                         <div v-else>
                             <img class="poster-not-av"src="https://zcms-rubais.softplace.eu/images/2000X3000_noimage.gif">
+                        </div>
+                        <div v-if="film.title" class="tag">
+                            Film
+                        </div>
+                        <div v-if="film.name" class="tag">
+                            Tv
                         </div>
                     </li>
                     <li>
