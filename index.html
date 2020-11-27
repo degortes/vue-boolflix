@@ -72,8 +72,10 @@
                                 <h2 v-else>Titolo: {{film.name}}</h2>
                             </li>
                             <li v-if="film.original_title!=film.title">
-                                <h3 v-if="film.original_title">Titolo originale: {{film.original_title}}</h3>
-                                <h3 v-else>Titolo originale: {{film.original_name}}</h3>
+                                <h3>Titolo originale: {{film.original_title}}</h3>
+                            </li>
+                            <li v-if="film.original_name!=film.name">
+                                <h3 >Titolo originale: {{film.original_name}}</h3>
                             </li>
                             <li class="language-section">
                                 <span class="info-lang">Language:</span>
