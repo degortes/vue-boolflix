@@ -33,6 +33,7 @@ var app = new Vue ({
     methods: {
 
         isClick(x) {
+            this.oldSelection = [...this.films];
             this.films = [];
             this.films = x;
             this.order = false;
