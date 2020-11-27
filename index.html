@@ -48,7 +48,10 @@
                         <button @click="sortByPop()" type="button" name="button">I più visti<i :class="!filter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
                     </div>
                 </div>
-                <h2 v-else-if="results">Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
+                <div v-else-if="results" class="no-results">
+                    <h2 >Nessun elemento corrisponde alla ricerca " {{results}} "</h2>
+                    <img src="https://www.dailydot.com/wp-content/uploads/c5e/14/sad20netflix-1024x512.jpg" alt="">
+                </div>
                 <div v-else class="welcome">
                 </div>
             </section>
@@ -109,8 +112,6 @@
             <div v-if="servicePage" class="alternative-advise">
                 <h2>Non ci sono risultati in questa categoria, clicca su vedi tutto </h2>
             </div>
-
-
         </div>
         <script src="main.js" charset="utf-8"></script>
     </body>

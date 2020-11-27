@@ -40,11 +40,7 @@ var app = new Vue ({
                     app.servicePage = false;
                 }
             });
-
-
         },
-
-
         isClick(x) {
             this.films = x;
             this.order = false;
@@ -72,10 +68,7 @@ var app = new Vue ({
                 this.filter = false;
             }
         },
-
-
         searchFilm() {
-
             if (this.search.trim()) {
                 this.oldSelection = [];
                 this.filter = false;
@@ -104,7 +97,6 @@ var app = new Vue ({
                     this.isLoading = false;
                     this.films = [...this.tvShow,...this.movie];
                     this.oldSelection = [...this.tvShow,...this.movie];
-                    // this.oldSelection = [...this.films];
 
                     this.movie.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
@@ -122,7 +114,6 @@ var app = new Vue ({
                             }
                         });
                     });
-
                 });
 
                 axios.get(tmdbServer + '/search/tv', {
@@ -145,7 +136,7 @@ var app = new Vue ({
                     });
 
                     this.isLoading = false;
-                    console.log(this.myTvGen);
+
                     this.serverTvGen.forEach((item, i) => {
                         this.myTvGen.forEach((elem, i) => {
                             if (item.id == elem && !this.pcGnr.includes(item.id)) {
@@ -154,7 +145,6 @@ var app = new Vue ({
                             }
                         });
                     });
-                    console.log(this.pcGnr);
                 });
 
                 this.results = this.search;
@@ -185,7 +175,6 @@ var app = new Vue ({
                         actordReply.data.cast.forEach((item) => {
                             if (this.bestfiveActors.length < this.maxActorshow && item.known_for_department == "Acting") {
                                 this.bestfiveActors.push(item.name);
-                                console.log(item);
                             }
                         });
                         this.moreDtl = !this.moreDtl;
