@@ -8,9 +8,10 @@ const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 var app = new Vue ({
     el: '#root',
     data: {
+        servicePage: '',
         filter: false,
         order: false,
-        oldSelection : [],
+        oldSelection: [],
         pcGnr: [],
         selectGnr: 'all',
         maxActorshow: 5,
@@ -32,12 +33,13 @@ var app = new Vue ({
     },
     methods: {
 
+
         isClick(x) {
-            this.oldSelection = [...this.films];
-            this.films = [];
             this.films = x;
             this.order = false;
             this.filter = false;
+
+
         },
         sortByStar() {
             this.filter = false;
@@ -65,6 +67,7 @@ var app = new Vue ({
         searchFilm() {
 
             if (this.search.trim()) {
+                this.oldSelection = [];
                 this.filter = false;
                 this.order = false;
                 this.pcGnr = [];
@@ -76,7 +79,6 @@ var app = new Vue ({
                 this.myTvGen = [];
                 this.myMovGen = [];
                 this.humGnr = [];
-                this.oldSelection = [];
 
                 let currentsearch = this.search;
 
@@ -91,7 +93,8 @@ var app = new Vue ({
                     this.movie = [...this.movie,...filmreply.data.results];
                     this.isLoading = false;
                     this.films = [...this.tvShow,...this.movie];
-                    this.oldSelection = [...this.oldSelection,...this.films];
+                    this.oldSelection = [...this.tvShow,...this.movie];
+                    // this.oldSelection = [...this.films];
 
                     this.movie.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
@@ -121,8 +124,8 @@ var app = new Vue ({
                 })
                 .then((tvreply) => {
                     this.tvShow = [...this.tvShow,...tvreply.data.results];
-                    this.isLoading = false;
                     this.films = [...this.tvShow,...this.movie];
+                    this.oldSelection = [...this.tvShow,...this.movie];
                     this.tvShow.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
                             if (!this.myTvGen.includes(elem)) {
@@ -130,6 +133,8 @@ var app = new Vue ({
                             }
                         });
                     });
+
+                    this.isLoading = false;
                     console.log(this.myTvGen);
                     this.serverTvGen.forEach((item, i) => {
                         this.myTvGen.forEach((elem, i) => {
@@ -141,7 +146,7 @@ var app = new Vue ({
                     });
                     console.log(this.pcGnr);
                 });
-                this.oldSelection = this.films;
+
                 this.results = this.search;
                 this.search ="";
             }

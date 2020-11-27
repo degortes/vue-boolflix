@@ -52,7 +52,7 @@
                 <div v-else class="welcome">
                 </div>
             </section>
-            <div class="film-container">
+            <div id="viewer" class="film-container">
                 <ul v-for="(film,i) in films" class="card" v-if="film.genre_ids.includes(selectGnr) || selectGnr == 'all' " @mouseleave="moreDtl = false">
                     <li>
                         <div v-if="film.poster_path != null" class="poster-container">
@@ -105,6 +105,9 @@
                         </ul>
                     </li>
                 </ul>
+            </div>
+            <div v-if="servicePage">
+                ricarica
             </div>
         </div>
         <script src="main.js" charset="utf-8"></script>
