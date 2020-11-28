@@ -73,10 +73,10 @@ var app = new Vue ({
             if (!this.dateFilter) {
                 this.films.sort((a,b) => {
                     if (b.anno == 'n.d.') {
+                        return -1;
+                    } else if (a.anno == 'n.d.') {
                         return 1;
-                    } else if (b.anno == 'n.d.') {
-                        return 1;
-                    }else if (a.anno > b.anno) {
+                    } else if (a.anno > b.anno) {
                         return -1;
                     } else {
                         return 1;
