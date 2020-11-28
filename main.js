@@ -1,7 +1,3 @@
-
-
-
-
 const tmdbServer = 'https://api.themoviedb.org/3';
 const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 
@@ -44,6 +40,7 @@ var app = new Vue ({
         },
         isClick(x) {
             this.films = x;
+            this.dateFilter = false;
             this.order = false;
             this.filter = false;
             this.serviceAdvise();
@@ -65,7 +62,6 @@ var app = new Vue ({
             if (!this.filter) {
                 this.films.sort((a,b) => (a.popularity > b.popularity? -1 : 1));
                 this.filter = true;
-
             } else {
                 this.films.reverse();
                 this.filter = false;
@@ -75,29 +71,14 @@ var app = new Vue ({
             this.order = false;
             this.filter = false;
             if (!this.dateFilter) {
-                this.films.sort((a,b) => {
-
-                    if (a.release_date) {
-                        if(a.release_date > b.release_date) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    } else if (a.first_air_date) {
-                        if(a.first_air_date > b.first_air_date) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    }
-                });
+                this.films.sort((a,b) => (a.anno > b.anno? -1 : 1));
                 this.dateFilter = true;
+
             } else {
                 this.films.reverse();
                 this.dateFilter = false;
             }
         },
-
         searchFilm() {
             if (this.search.trim()) {
                 this.oldSelection = [];
@@ -123,10 +104,20 @@ var app = new Vue ({
                     }
                 })
                 .then((filmreply) => {
-                    this.movie = [...this.movie,...filmreply.data.results];
+                    filmreply.data.results.forEach((item, i) => {
+
+                        if (item.release_date) {
+                            let year = item.release_date;
+                            item = {...item, anno: year }
+                            this.movie.push(item);
+                        } else {
+                            item = {...item, anno: 0000 }
+                            this.movie.push(item);
+                        }
+                    });
+                    this.films = [...this.movie,...this.films];
+                    this.oldSelection = [...this.movie,...this.oldSelection];
                     this.isLoading = false;
-                    this.films = [...this.tvShow,...this.movie];
-                    this.oldSelection = [...this.tvShow,...this.movie];
 
                     this.movie.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
@@ -154,9 +145,18 @@ var app = new Vue ({
                     }
                 })
                 .then((tvreply) => {
-                    this.tvShow = [...this.tvShow,...tvreply.data.results];
-                    this.films = [...this.tvShow,...this.movie];
-                    this.oldSelection = [...this.tvShow,...this.movie];
+                    tvreply.data.results.forEach((item, i) => {
+                        if (item.first_air_date != 0) {
+                            let year = item.first_air_date
+                            item = {...item, anno: year }
+                            this.tvShow.push(item);
+                        } else {
+                            item = {...item, anno: 0000 }
+                            this.tvShow.push(item);
+                        }
+                    });
+                    this.films = [...this.tvShow,...this.films];
+                    this.oldSelection = [...this.tvShow,...this.oldSelection];
                     this.tvShow.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
                             if (!this.myTvGen.includes(elem)) {
@@ -178,7 +178,6 @@ var app = new Vue ({
                 });
 
                 this.results = this.search;
-                this.search ="";
             }
         },
         takefilmDtl(film) {
@@ -208,7 +207,7 @@ var app = new Vue ({
                                 this.bestfiveActors.push(item.name);
                             }
                         });
-                    })
+                    });
                 } else if (film.name) {
 
                     film.genre_ids.forEach((item, i) => {
@@ -232,7 +231,7 @@ var app = new Vue ({
                                 this.bestfiveActors.push(item.name);
                             }
                         });
-                    })
+                    });
                 }
             } else {
                 this.moreDtl = false;
@@ -259,14 +258,6 @@ var app = new Vue ({
             this.serverMovGen = movgenreply.data.genres;
         })
     }
-
-
-
-
-
-
-
-
 
 
 });

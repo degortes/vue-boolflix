@@ -40,14 +40,14 @@
                     <div class="mid-filter">
                         <button v-show="movie.length && !servicePage" @click="isClick(movie)" type="button" name="button" :class="films == movie? 'active' : null">Film</button>
                         <button type="button" v-show="tvShow.length && !servicePage" @click="isClick(tvShow)" name="button" :class="films == tvShow? 'active' : null">Serie</button>
-                        <button type="button" @click="isClick(oldSelection)" name="button" :class="films == oldSelection? 'active' : null">Vedi tutto</button>
+                        <button type="button" @click="isClick(oldSelection)" name="button" :class="oldSelection.length == films.length? 'active' : null">Vedi tutto</button>
                     </div>
                     <div class="right-filter">
                         <button @click="sortByStar" type="button" name="button">Voto
                             <i :class="!order?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
                         <button @click="sortByPop()" type="button" name="button">Più visti<i :class="!filter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
-                        <button v-if="films == tvShow || films == movie " @click="sortByDate()" type="button" name="button">Data<i :class="!dateFilter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
-                        
+                        <button @click="sortByDate()" type="button" name="button">Data<i :class="!dateFilter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
+
                     </div>
                 </div>
                 <div v-else-if="results" class="no-results">
@@ -90,11 +90,8 @@
                                 <img class="lang" v-if="languages.includes(film.original_language)":src="'img/' + film.original_language+'.png'" alt="">
                                 <span v-else >{{ film.original_language}}</span>
                             </li>
-                            <li v-if="film.release_date">
-                                {{film.release_date.substring(0, 4)}}
-                            </li>
-                            <li v-if="film.first_air_date">
-                                {{film.first_air_date.substring(0, 4)}}
+                            <li v-if="film.anno">
+                                {{film.anno.substring(0, 4)}}
                             </li>
                             <li>
                                 <div v-if="film.vote_average" class="stars">
