@@ -8,6 +8,7 @@ const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 var app = new Vue ({
     el: '#root',
     data: {
+        dateFilter: false,
         servicePage: false,
         filter: false,
         order: false,
@@ -48,6 +49,7 @@ var app = new Vue ({
             this.serviceAdvise();
         },
         sortByStar() {
+            this.dateFilter = false
             this.filter = false;
             if (!this.order) {
                 this.films.sort((a,b) => (a.vote_average > b.vote_average? -1 : 1));
@@ -58,6 +60,7 @@ var app = new Vue ({
             }
         },
         sortByPop() {
+            this.dateFilter = false
             this.order = false;
             if (!this.filter) {
                 this.films.sort((a,b) => (a.popularity > b.popularity? -1 : 1));
@@ -68,6 +71,33 @@ var app = new Vue ({
                 this.filter = false;
             }
         },
+        sortByDate() {
+            this.order = false;
+            this.filter = false;
+            if (!this.dateFilter) {
+                this.films.sort((a,b) => {
+
+                    if (a.release_date) {
+                        if(a.release_date > b.release_date) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    } else if (a.first_air_date) {
+                        if(a.first_air_date > b.first_air_date) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    }
+                });
+                this.dateFilter = true;
+            } else {
+                this.films.reverse();
+                this.dateFilter = false;
+            }
+        },
+
         searchFilm() {
             if (this.search.trim()) {
                 this.oldSelection = [];

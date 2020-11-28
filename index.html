@@ -13,13 +13,13 @@
         <div id="root">
             <header>
                 <div class="left-head">
-                    <h1>Boolflix</h1>
+                    <h1 href="#">Boolflix</h1>
                 </div>
                 <div class="right-head">
-                    <input type="text" placeholder="Cerca nei contenuti" v-model="search" @keyup.enter="searchFilm()">
                     <button type="button" name="button" @click="searchFilm()">
                         <i class="fas fa-search"></i>
                     </button>
+                    <input type="text" placeholder="Cerca nei contenuti" v-model="search" @keyup.enter="searchFilm()">
 
                 </div>
             </header>
@@ -45,7 +45,9 @@
                     <div class="right-filter">
                         <button @click="sortByStar" type="button" name="button">Voto
                             <i :class="!order?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
-                        <button @click="sortByPop()" type="button" name="button">I più visti<i :class="!filter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
+                        <button @click="sortByPop()" type="button" name="button">Più visti<i :class="!filter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
+                        <button v-if="films == tvShow || films == movie " @click="sortByDate()" type="button" name="button">Data<i :class="!dateFilter?'fas fa-chevron-down' :'fas fa-chevron-up'"></i></button>
+                        
                     </div>
                 </div>
                 <div v-else-if="results" class="no-results">
@@ -87,6 +89,12 @@
                                 <span class="info-lang">Language:</span>
                                 <img class="lang" v-if="languages.includes(film.original_language)":src="'img/' + film.original_language+'.png'" alt="">
                                 <span v-else >{{ film.original_language}}</span>
+                            </li>
+                            <li v-if="film.release_date">
+                                {{film.release_date.substring(0, 4)}}
+                            </li>
+                            <li v-if="film.first_air_date">
+                                {{film.first_air_date.substring(0, 4)}}
                             </li>
                             <li>
                                 <div v-if="film.vote_average" class="stars">

@@ -15,24 +15,23 @@ header {
     display: flex;
     height: 70px;
     background-color: black;
-    padding: 0 20px;
+    padding: 0 15px;
     justify-content: space-between;
     align-items: center;
 }
 header input {
-    width: 160px;
-    height: 40px;
-    border-radius: 3px;
+    width: 140px;
+    height: 35px;
+    border-radius: 5px;
     text-align: center;
+    border: 1px solid black;
 }
 
 header button {
-    border-radius: 3px;
-    width: 40px;
-    height: 40px;
-    background-color: red;
+    background-color: black;
     color: white;
-    display: none;
+    display: inline-block;
+    border: none;
 
 }
 .welcome {
@@ -49,6 +48,7 @@ header button {
 }
 
 h1 {
+    font-size: 30px;
     color: red;
     margin-right: 10px;
 }
@@ -93,6 +93,7 @@ section .results::after {
 }
 .right-filter button i {
     margin-left: 3px;
+    font-size: 10px;
 }
 section h2 {
     color: white;
@@ -102,10 +103,10 @@ section h2 {
 section button, section select {
     font-weight: bold;
     min-height: 30px;
-    padding: 0 10px;
-    margin: 0 3px;
+    padding: 0 7px;
+    margin: 0 2px;
     min-width: 60px;
-    background-color: #333;
+    background-color: black;
     color: white;
     border: 2px solid black;
     font-size: 14px;
@@ -282,12 +283,6 @@ h3 {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-@media screen and (min-width: 380px) {
-    header button {
-        display: inline-block;
-    }
-
 }
 
 
