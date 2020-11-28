@@ -46,7 +46,7 @@ var app = new Vue ({
             this.serviceAdvise();
         },
         sortByStar() {
-            this.dateFilter = false
+            this.dateFilter = false;
             this.filter = false;
             if (!this.order) {
                 this.films.sort((a,b) => (a.vote_average > b.vote_average? -1 : 1));
@@ -57,7 +57,7 @@ var app = new Vue ({
             }
         },
         sortByPop() {
-            this.dateFilter = false
+            this.dateFilter = false;
             this.order = false;
             if (!this.filter) {
                 this.films.sort((a,b) => (a.popularity > b.popularity? -1 : 1));
@@ -71,9 +71,18 @@ var app = new Vue ({
             this.order = false;
             this.filter = false;
             if (!this.dateFilter) {
-                this.films.sort((a,b) => (a.anno > b.anno? -1 : 1));
+                this.films.sort((a,b) => {
+                    if (b.anno == 'n.d.') {
+                        return 1;
+                    } else if (b.anno == 'n.d.') {
+                        return 1;
+                    }else if (a.anno > b.anno) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                });
                 this.dateFilter = true;
-
             } else {
                 this.films.reverse();
                 this.dateFilter = false;
@@ -108,10 +117,10 @@ var app = new Vue ({
 
                         if (item.release_date) {
                             let year = item.release_date;
-                            item = {...item, anno: year }
+                            item = {...item, anno: year };
                             this.movie.push(item);
                         } else {
-                            item = {...item, anno: 0000 }
+                            item = {...item, anno: 'n.d.' };
                             this.movie.push(item);
                         }
                     });
@@ -122,7 +131,7 @@ var app = new Vue ({
                     this.movie.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
                             if (!this.myMovGen.includes(elem)) {
-                                this.myMovGen.push(elem)
+                                this.myMovGen.push(elem);
                             }
                         });
                     });
@@ -131,7 +140,7 @@ var app = new Vue ({
                         this.myMovGen.forEach((elem, i) => {
                             if (item.id == elem && !this.pcGnr.includes(item.id)) {
                                 this.humGnr.push(item.name);
-                                this.pcGnr.push(item.id)
+                                this.pcGnr.push(item.id);
                             }
                         });
                     });
@@ -146,12 +155,12 @@ var app = new Vue ({
                 })
                 .then((tvreply) => {
                     tvreply.data.results.forEach((item, i) => {
-                        if (item.first_air_date != 0) {
-                            let year = item.first_air_date
-                            item = {...item, anno: year }
+                        if (item.first_air_date) {
+                            let year = item.first_air_date;
+                            item = {...item, anno: year };
                             this.tvShow.push(item);
                         } else {
-                            item = {...item, anno: 0000 }
+                            item = {...item, anno: 'n.d.' };
                             this.tvShow.push(item);
                         }
                     });
@@ -160,7 +169,7 @@ var app = new Vue ({
                     this.tvShow.forEach((item) => {
                         item.genre_ids.forEach((elem) => {
                             if (!this.myTvGen.includes(elem)) {
-                                this.myTvGen.push(elem)
+                                this.myTvGen.push(elem);
                             }
                         });
                     });
@@ -190,7 +199,7 @@ var app = new Vue ({
                     film.genre_ids.forEach((item, i) => {
                         this.serverMovGen.forEach((elem, i) => {
                             if (item == elem.id) {
-                                this.genres.push(elem.name)
+                                this.genres.push(elem.name);
                             }
                         });
                     });
@@ -213,7 +222,7 @@ var app = new Vue ({
                     film.genre_ids.forEach((item, i) => {
                         this.serverTvGen.forEach((elem, i) => {
                             if (item == elem.id) {
-                                this.genres.push(elem.name)
+                                this.genres.push(elem.name);
                             }
                         });
 

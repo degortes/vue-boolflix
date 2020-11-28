@@ -29,7 +29,7 @@
 
                 <div  class="results" v-else-if="films.length">
                     <div class="main-search">
-                        <h2>Risultati per" {{results}} "</h2>
+                        <h2>Risultati per: " {{results}} "</h2>
                     </div>
                     <div class="left-filter">
                         <select @change="serviceAdvise()" v-model="selectGnr">
@@ -90,8 +90,8 @@
                                 <img class="lang" v-if="languages.includes(film.original_language)":src="'img/' + film.original_language+'.png'" alt="">
                                 <span v-else >{{ film.original_language}}</span>
                             </li>
-                            <li v-if="film.anno">
-                                {{film.anno.substring(0, 4)}}
+                            <li>
+                                Anno: {{film.anno.substring(0, 4)}}
                             </li>
                             <li>
                                 <div v-if="film.vote_average" class="stars">
