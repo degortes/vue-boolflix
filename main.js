@@ -4,6 +4,7 @@ const myApiKey = '56a6519b540fc03f31a569d6c934a815';
 var app = new Vue ({
     el: '#root',
     data: {
+        openfilter: false,
         dateFilter: false,
         servicePage: false,
         filter: false,
@@ -32,6 +33,7 @@ var app = new Vue ({
         serviceAdvise() {
             Vue.nextTick(function() {
                 if (!app.$refs.test.length) {
+                    app.films = app.oldSelection;
                     app.servicePage = true;
                 } else {
                     app.servicePage = false;
